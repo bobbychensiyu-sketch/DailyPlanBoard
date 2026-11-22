@@ -1,0 +1,386 @@
+<Window x:Class="DailyPlanBoard.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="设置 · 每日计划看板"
+        Width="440"
+        Height="610"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
+
+    <Border Margin="4" CornerRadius="14" Background="#24000000" Padding="1.5">
+        <Border CornerRadius="13"
+                Background="{DynamicResource CardBgBrush}"
+                BorderBrush="{DynamicResource BorderBrushKey}"
+                BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <Border Grid.Row="0"
+                        Padding="16,12,12,10"
+                        BorderBrush="{DynamicResource BorderBrushKey}"
+                        BorderThickness="0,0,0,1"
+                        Background="Transparent"
+                        MouseLeftButtonDown="Header_MouseLeftButtonDown">
+                    <DockPanel>
+                        <TextBlock x:Name="WinHeaderTitle"
+                                   Text="⚙  看板设置"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"
+                                   VerticalAlignment="Center"/>
+                        <Button DockPanel.Dock="Right"
+                                Content="✕"
+                                Width="28" Height="28"
+                                Click="Close_Click"
+                                Style="{DynamicResource IconBtnStyle}"/>
+                    </DockPanel>
+                </Border>
+
+                <!-- Scrollable Settings -->
+                <ScrollViewer Grid.Row="1"
+                              Padding="16,12,16,12"
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+
+                        <!-- Section 0: 语言 Language Langue -->
+                        <TextBlock x:Name="SecLangHeader"
+                                   Text="语言 / Language / Langue"
+                                   FontSize="12.5"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}"
+                                   Margin="0,0,0,7"/>
+                        <Border Padding="12,9" CornerRadius="10" Background="{DynamicResource SurfaceBgBrush}" Margin="0,0,0,13">
+                            <WrapPanel>
+                                <Button x:Name="LangBtnZh" Content="简体中文" Tag="0" Click="LangBtn_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,8,0" Padding="12,4"/>
+                                <Button x:Name="LangBtnEn" Content="English" Tag="1" Click="LangBtn_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,8,0" Padding="12,4"/>
+                                <Button x:Name="LangBtnFr" Content="Français" Tag="2" Click="LangBtn_Click" Style="{DynamicResource ChipBtnStyle}" Padding="12,4"/>
+                            </WrapPanel>
+                        </Border>
+
+                        <!-- Section 1: 吸附与窗口层级 -->
+                        <TextBlock x:Name="SecDockHeader"
+                                   Text="吸附与窗口层级"
+                                   FontSize="12.5"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}"
+                                   Margin="0,0,0,7"/>
+                        <Border Padding="12,10" CornerRadius="10" Background="{DynamicResource SurfaceBgBrush}" Margin="0,0,0,13">
+                            <StackPanel>
+                                <DockPanel Margin="0,0,0,8">
+                                    <TextBlock x:Name="LabelLayer" Text="窗口层级" FontSize="13" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="PinModeCombo"
+                                              DockPanel.Dock="Right"
+                                              Width="205"
+                                              FontSize="12.5"
+                                              SelectionChanged="PinModeCombo_SelectionChanged">
+                                        <ComboBoxItem x:Name="LayerItem0" Content="🖥️ 常驻桌面（免疫 Win+D）" Tag="0"/>
+                                        <ComboBoxItem x:Name="LayerItem1" Content="📌 窗口置顶（Always on Top）" Tag="1"/>
+                                        <ComboBoxItem x:Name="LayerItem2" Content="📄 普通悬浮窗口" Tag="2"/>
+                                    </ComboBox>
+                                </DockPanel>
+
+                                <CheckBox x:Name="EdgeSnapCheck"
+                                          Content="屏幕边缘磁吸（拖动靠边自动贴齐）"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,4" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+
+                                <CheckBox x:Name="AutoCollapseCheck"
+                                          Content="贴边自动收起为胶囊（不占桌面空间）"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,4" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+
+                                <CheckBox x:Name="HoverExpandCheck"
+                                          Content="鼠标悬停胶囊自动滑出展开"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,4" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+
+                                <CheckBox x:Name="AvoidFullscreenCheck"
+                                          Content="全屏程序自动避让（看视频/游戏时不遮挡）"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,4" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+
+                                <CheckBox x:Name="HideFromCaptureCheck"
+                                          Content="在截图和录屏中隐藏看板内容（隐私保护）"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,4,0,0" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Section 2: 外观与配色 -->
+                        <TextBlock x:Name="SecAppHeader"
+                                   Text="外观与配色"
+                                   FontSize="12.5"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}"
+                                   Margin="0,0,0,7"/>
+                        <Border Padding="12,10" CornerRadius="10" Background="{DynamicResource SurfaceBgBrush}" Margin="0,0,0,13">
+                            <StackPanel>
+                                <TextBlock x:Name="LabelPalette" Text="主题配色" FontSize="12.5" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,6"/>
+                                <WrapPanel Margin="0,0,0,10">
+                                    <Button x:Name="ThemeBtn0" Content="暖纸" Tag="0" Click="ThemeBtn_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,6,6"/>
+                                    <Button x:Name="ThemeBtn1" Content="素白" Tag="1" Click="ThemeBtn_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,6,6"/>
+                                    <Button x:Name="ThemeBtn2" Content="松林" Tag="2" Click="ThemeBtn_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,6,6"/>
+                                    <Button x:Name="ThemeBtn3" Content="晚霞" Tag="3" Click="ThemeBtn_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,6,6"/>
+                                    <Button x:Name="ThemeBtn4" Content="墨夜" Tag="4" Click="ThemeBtn_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,6,6"/>
+                                </WrapPanel>
+
+                                <DockPanel Margin="0,0,0,8">
+                                    <TextBlock x:Name="OpacityLabel"
+                                               Text="窗口透明度：96%"
+                                               FontSize="12.5"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"
+                                               VerticalAlignment="Center"/>
+                                    <Slider x:Name="OpacitySlider"
+                                            DockPanel.Dock="Right"
+                                            Width="185"
+                                            Minimum="0.70" Maximum="1.0"
+                                            TickFrequency="0.02"
+                                            IsSnapToTickEnabled="True"
+                                            VerticalAlignment="Center"
+                                            ValueChanged="OpacitySlider_ValueChanged"/>
+                                </DockPanel>
+
+                                <DockPanel>
+                                    <TextBlock x:Name="LabelFont" Text="正文字号" FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="FontScaleCombo"
+                                              DockPanel.Dock="Right"
+                                              Width="165"
+                                              FontSize="12.5"
+                                              SelectionChanged="FontScaleCombo_SelectionChanged">
+                                        <ComboBoxItem x:Name="FontItem0" Content="紧凑 (92%)" Tag="0.92"/>
+                                        <ComboBoxItem x:Name="FontItem1" Content="标准 (100%)" Tag="1.0"/>
+                                        <ComboBoxItem x:Name="FontItem2" Content="舒适 (110%)" Tag="1.1"/>
+                                    </ComboBox>
+                                </DockPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Section 3: 待办、提醒与快捷键 -->
+                        <TextBlock x:Name="SecBehaviorHeader"
+                                   Text="待办、提醒与常规"
+                                   FontSize="12.5"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}"
+                                   Margin="0,0,0,7"/>
+                        <Border Padding="12,10" CornerRadius="10" Background="{DynamicResource SurfaceBgBrush}" Margin="0,0,0,13">
+                            <StackPanel>
+                                <CheckBox x:Name="CompletedAtBottomCheck"
+                                          Content="已完成事项自动沉底"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,4" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+
+                                <CheckBox x:Name="AutoDeleteCompletedCheck"
+                                          Content="打勾完成后自动清理（不保留已完成记录）"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,4" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+
+                                <CheckBox x:Name="SoundEnabledCheck"
+                                          Content="到期提醒时播放系统提示音"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,4" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+
+                                <CheckBox x:Name="ShowInTaskbarCheck"
+                                          Content="在任务栏和 Alt+Tab 中显示窗口图标"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,4" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+
+                                <CheckBox x:Name="AutoStartCheck"
+                                          Content="开机自动启动每日计划看板"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,4,0,10" Checked="AutoStartCheck_Changed" Unchecked="AutoStartCheck_Changed"/>
+
+                                <!-- Custom Global Hotkey Recorder -->
+                                <DockPanel>
+                                    <TextBlock x:Name="LabelHotkey"
+                                               Text="全局呼出/收起快捷键"
+                                               FontSize="12.5"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"
+                                               VerticalAlignment="Center"/>
+                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                        <TextBox x:Name="HotkeyBox"
+                                                 Width="140"
+                                                 Padding="8,4"
+                                                 FontSize="12.5"
+                                                 FontWeight="SemiBold"
+                                                 TextAlignment="Center"
+                                                 IsReadOnly="True"
+                                                 Cursor="Hand"
+                                                 Background="{DynamicResource InputBgBrush}"
+                                                 Foreground="{DynamicResource AccentBrush}"
+                                                 BorderBrush="{DynamicResource BorderBrushKey}"
+                                                 BorderThickness="1"
+                                                 GotFocus="HotkeyBox_GotFocus"
+                                                 LostFocus="HotkeyBox_LostFocus"
+                                                 PreviewKeyDown="HotkeyBox_PreviewKeyDown"/>
+                                        <Button x:Name="ClearHotkeyBtn"
+                                                Content="禁用"
+                                                Margin="6,0,0,0"
+                                                Padding="8,4"
+                                                Click="ClearHotkey_Click"
+                                                Style="{DynamicResource SubtleBtnStyle}"/>
+                                    </StackPanel>
+                                </DockPanel>
+                                <TextBlock x:Name="HotkeyHintText"
+                                           Text="点击输入框直接按下组合键（如 Alt+Q、Ctrl+Alt+D）"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           Margin="0,4,0,0"/>
+                                <TextBlock x:Name="HotkeyErrorText"
+                                           Text=""
+                                           FontSize="11"
+                                           Foreground="#DC2626"
+                                           Margin="0,2,0,0"
+                                           Visibility="Collapsed"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Section 3.5: 默认提醒、自动顺延与微信推送 -->
+                        <TextBlock x:Name="SecSmartRemindHeader"
+                                   Text="默认提醒、自动顺延与微信推送"
+                                   FontSize="12.5"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}"
+                                   Margin="0,0,0,7"/>
+                        <Border Padding="12,10" CornerRadius="10" Background="{DynamicResource SurfaceBgBrush}" Margin="0,0,0,13">
+                            <StackPanel>
+                                <CheckBox x:Name="DefaultRemindCheck"
+                                          Content="新增计划默认开启定时提醒"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,2,0,6" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+                                <DockPanel Margin="20,0,0,8">
+                                    <TextBlock x:Name="LabelDefaultTime"
+                                               Text="默认提醒时间 (24h)"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                               VerticalAlignment="Center"/>
+                                    <TextBox x:Name="DefaultTimeBox"
+                                             DockPanel.Dock="Right"
+                                             Width="82"
+                                             Padding="6,3"
+                                             FontSize="12.5"
+                                             TextAlignment="Center"
+                                             Background="{DynamicResource InputBgBrush}"
+                                             Foreground="{DynamicResource TextPrimaryBrush}"
+                                             BorderBrush="{DynamicResource BorderBrushKey}"
+                                             BorderThickness="1"
+                                             LostFocus="TimeBox_LostFocus"/>
+                                </DockPanel>
+
+                                <CheckBox x:Name="AutoRolloverCheck"
+                                          Content="未完成计划自动顺延到第二天"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,2,0,6" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+
+                                <CheckBox x:Name="RolloverRemindCheck"
+                                          Content="顺延到第二天后自动设置提醒"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="20,0,0,6" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+                                <DockPanel Margin="20,0,0,8">
+                                    <TextBlock x:Name="LabelRolloverTime"
+                                               Text="顺延提醒时间 (24h)"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                               VerticalAlignment="Center"/>
+                                    <TextBox x:Name="RolloverTimeBox"
+                                             DockPanel.Dock="Right"
+                                             Width="82"
+                                             Padding="6,3"
+                                             FontSize="12.5"
+                                             TextAlignment="Center"
+                                             Background="{DynamicResource InputBgBrush}"
+                                             Foreground="{DynamicResource TextPrimaryBrush}"
+                                             BorderBrush="{DynamicResource BorderBrushKey}"
+                                             BorderThickness="1"
+                                             LostFocus="TimeBox_LostFocus"/>
+                                </DockPanel>
+
+                                <TextBlock x:Name="TimeErrorText"
+                                           FontSize="11"
+                                           Foreground="#DC2626"
+                                           Margin="0,0,0,6"
+                                           Visibility="Collapsed"/>
+
+                                <Separator Background="{DynamicResource BorderBrushKey}" Margin="0,2,0,8"/>
+
+                                <CheckBox x:Name="WeComBotCheck"
+                                          Content="提醒时同步推送到企业微信机器人 (WeCom Bot)"
+                                          FontSize="12.5" Foreground="{DynamicResource TextPrimaryBrush}"
+                                          Margin="0,0,0,6" Checked="Setting_Changed" Unchecked="Setting_Changed"/>
+                                <TextBlock x:Name="LabelWeComWebhook"
+                                           Text="机器人 Webhook 或 Key"
+                                           FontSize="11.5"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           Margin="0,0,0,4"/>
+                                <DockPanel>
+                                    <Button x:Name="TestWeComBtn"
+                                            DockPanel.Dock="Right"
+                                            Content="测试微信推送"
+                                            Margin="6,0,0,0"
+                                            Padding="9,4"
+                                            Click="TestWeCom_Click"
+                                            Style="{DynamicResource SubtleBtnStyle}"/>
+                                    <PasswordBox x:Name="WeComWebhookBox"
+                                                 Padding="7,4"
+                                                 FontSize="12"
+                                                 Background="{DynamicResource InputBgBrush}"
+                                                 Foreground="{DynamicResource TextPrimaryBrush}"
+                                                 BorderBrush="{DynamicResource BorderBrushKey}"
+                                                 BorderThickness="1"
+                                                 PasswordChanged="WeComWebhookBox_PasswordChanged"/>
+                                </DockPanel>
+                                <TextBlock x:Name="WeComStatusText"
+                                           FontSize="11"
+                                           Margin="0,4,0,0"
+                                           Visibility="Collapsed"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Section 4: In-Board Shortcuts Reference -->
+                        <TextBlock x:Name="SecShortcutsHeader"
+                                   Text="看板内快捷键"
+                                   FontSize="12.5"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}"
+                                   Margin="0,0,0,7"/>
+                        <Border Padding="12,9" CornerRadius="10" Background="{DynamicResource SurfaceBgBrush}" Margin="0,0,0,4">
+                            <TextBlock x:Name="ShortcutListText"
+                                       FontSize="11.5"
+                                       LineHeight="18"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Footer Actions -->
+                <Border Grid.Row="2"
+                        Padding="16,10"
+                        BorderBrush="{DynamicResource BorderBrushKey}"
+                        BorderThickness="0,1,0,0">
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="TestRemindBtn" Content="⏰ 测试提醒" Click="TestReminder_Click" Style="{DynamicResource SubtleBtnStyle}" Margin="0,0,6,0"/>
+                            <Button x:Name="OpenDataBtn" Content="📂 数据目录" Click="OpenData_Click" Style="{DynamicResource SubtleBtnStyle}"/>
+                        </StackPanel>
+                        <Button x:Name="DoneBtn"
+                                DockPanel.Dock="Right"
+                                Content="完成"
+                                Width="80"
+                                Click="Close_Click"
+                                Style="{DynamicResource AccentBtnStyle}"/>
+                    </DockPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

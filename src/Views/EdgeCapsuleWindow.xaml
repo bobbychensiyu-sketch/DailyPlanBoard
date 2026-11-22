@@ -1,0 +1,86 @@
+<Window x:Class="DailyPlanBoard.Views.EdgeCapsuleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="每日计划胶囊"
+        Width="30"
+        Height="136"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        ResizeMode="NoResize">
+    <Border x:Name="PillBorder"
+            Background="{DynamicResource CardBgBrush}"
+            BorderBrush="{DynamicResource BorderBrushKey}"
+            BorderThickness="1"
+            CornerRadius="12,0,0,12"
+            Cursor="Hand"
+            MouseEnter="Pill_MouseEnter"
+            MouseLeave="Pill_MouseLeave"
+            MouseLeftButtonDown="Pill_MouseLeftButtonDown"
+            MouseMove="Pill_MouseMove"
+            MouseLeftButtonUp="Pill_MouseLeftButtonUp">
+        <Grid Margin="2,8,2,8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top accent icon -->
+            <Border Grid.Row="0"
+                    Width="18" Height="18"
+                    CornerRadius="5"
+                    Background="{DynamicResource AccentBrush}"
+                    HorizontalAlignment="Center">
+                <TextBlock Text="✓"
+                           Foreground="#FFFFFF"
+                           FontSize="10.5"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Border>
+
+            <!-- Vertical label -->
+            <StackPanel x:Name="ZhLabelPanel"
+                        Grid.Row="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+                <TextBlock Text="计" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
+                <TextBlock Text="划" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,1,0,0"/>
+            </StackPanel>
+            <TextBlock x:Name="LatinLabelText"
+                       Grid.Row="1"
+                       Text="PLAN"
+                       FontSize="10.5"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource TextPrimaryBrush}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Visibility="Collapsed">
+                <TextBlock.LayoutTransform>
+                    <RotateTransform Angle="-90"/>
+                </TextBlock.LayoutTransform>
+            </TextBlock>
+
+            <!-- Bottom pending count -->
+            <Border x:Name="CountBadge"
+                    Grid.Row="2"
+                    MinWidth="18" Height="18"
+                    Padding="3,0"
+                    CornerRadius="9"
+                    Background="{DynamicResource AccentSoftBrush}"
+                    HorizontalAlignment="Center">
+                <TextBlock x:Name="CountText"
+                           Text="0"
+                           FontSize="10.5"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource AccentBrush}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

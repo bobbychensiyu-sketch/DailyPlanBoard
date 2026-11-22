@@ -1,0 +1,170 @@
+<Window x:Class="DailyPlanBoard.Views.EditTaskDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="编辑计划"
+        Width="370"
+        SizeToContent="Height"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
+    <Border Margin="4" CornerRadius="13.5" Background="#22000000" Padding="1.5">
+    <Border CornerRadius="12"
+            Background="{DynamicResource CardBgBrush}"
+            BorderBrush="{DynamicResource BorderBrushKey}"
+            BorderThickness="1">
+        <StackPanel Margin="16,14,16,16">
+            <!-- Header -->
+            <DockPanel Margin="0,0,0,12" MouseLeftButtonDown="Header_MouseLeftButtonDown" Background="Transparent">
+                <TextBlock x:Name="DialogTitleText"
+                           Text="编辑计划"
+                           FontSize="15"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextPrimaryBrush}"
+                           VerticalAlignment="Center"/>
+                <Button DockPanel.Dock="Right"
+                        Content="✕"
+                        Width="26" Height="26"
+                        Click="Cancel_Click"
+                        Style="{DynamicResource IconBtnStyle}"
+                        ToolTip="关闭"/>
+            </DockPanel>
+
+            <!-- Title -->
+            <TextBlock x:Name="LabelContent" Text="计划内容" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+            <TextBox x:Name="TitleBox"
+                     FontSize="13.5"
+                     Padding="9,7"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="False"
+                     Background="{DynamicResource InputBgBrush}"
+                     Foreground="{DynamicResource TextPrimaryBrush}"
+                     CaretBrush="{DynamicResource TextPrimaryBrush}"
+                     BorderBrush="{DynamicResource BorderBrushKey}"
+                     BorderThickness="1"/>
+
+            <!-- Note -->
+            <TextBlock x:Name="LabelNote" Text="备注（可选）" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,10,0,4"/>
+            <TextBox x:Name="NoteBox"
+                     FontSize="12.5"
+                     Height="56"
+                     Padding="9,6"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"
+                     Background="{DynamicResource InputBgBrush}"
+                     Foreground="{DynamicResource TextPrimaryBrush}"
+                     CaretBrush="{DynamicResource TextPrimaryBrush}"
+                     BorderBrush="{DynamicResource BorderBrushKey}"
+                     BorderThickness="1"/>
+
+            <!-- Date & Priority -->
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock x:Name="LabelDate" Text="所属日期" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                    <DatePicker x:Name="PlanDatePicker" FontSize="12.5"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock x:Name="LabelPri" Text="优先级" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="PriorityCombo" FontSize="12.5" Padding="6,4">
+                        <ComboBoxItem x:Name="PriItem0" Content="普通" Tag="0"/>
+                        <ComboBoxItem x:Name="PriItem1" Content="重要" Tag="1"/>
+                        <ComboBoxItem x:Name="PriItem2" Content="紧急" Tag="2"/>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+
+            <!-- Milestone Target Date -->
+            <TextBlock x:Name="LabelMilestone"
+                       Text="🎯 节点截止日期（设置后从当前日期至节点前每天排入计划，含提前3天/1天及当天紧急提醒）"
+                       FontSize="11.5"
+                       TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextSecondaryBrush}"
+                       Margin="0,10,0,4"/>
+            <DockPanel>
+                <Button x:Name="ClearMilestoneBtn"
+                        DockPanel.Dock="Right"
+                        Content="清除"
+                        Margin="6,0,0,0"
+                        Padding="10,4"
+                        Click="ClearMilestone_Click"
+                        Style="{DynamicResource SubtleBtnStyle}"/>
+                <DatePicker x:Name="MilestoneDatePicker" FontSize="12.5"/>
+            </DockPanel>
+            <WrapPanel Margin="0,6,0,0">
+                <Button x:Name="MsP3Btn" Content="+3天" Tag="3" Click="QuickMilestone_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+                <Button x:Name="MsP5Btn" Content="+5天" Tag="5" Click="QuickMilestone_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+                <Button x:Name="MsP7Btn" Content="+1周" Tag="7" Click="QuickMilestone_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+                <Button x:Name="MsP14Btn" Content="+2周" Tag="14" Click="QuickMilestone_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+                <Button x:Name="MsMonthEndBtn" Content="本月底" Tag="monthend" Click="QuickMilestone_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+            </WrapPanel>
+
+            <!-- Reminder Time -->
+            <TextBlock x:Name="LabelRem" Text="定时提醒（24小时制，如 14:30，留空不提醒）" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,12,0,4"/>
+            <DockPanel>
+                <Button x:Name="ClearRemBtn"
+                        DockPanel.Dock="Right"
+                        Content="清除"
+                        Margin="6,0,0,0"
+                        Padding="10,4"
+                        Click="ClearReminder_Click"
+                        Style="{DynamicResource SubtleBtnStyle}"/>
+                <TextBox x:Name="ReminderBox"
+                         FontSize="13"
+                         Padding="9,6"
+                         Background="{DynamicResource InputBgBrush}"
+                         Foreground="{DynamicResource TextPrimaryBrush}"
+                         CaretBrush="{DynamicResource TextPrimaryBrush}"
+                         BorderBrush="{DynamicResource BorderBrushKey}"
+                         BorderThickness="1"/>
+            </DockPanel>
+
+            <!-- Quick reminder presets -->
+            <WrapPanel Margin="0,6,0,0">
+                <Button x:Name="Q15Btn" Content="+15分" Tag="+15" Click="QuickTime_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+                <Button x:Name="Q30Btn" Content="+30分" Tag="+30" Click="QuickTime_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+                <Button x:Name="Q60Btn" Content="+1小时" Tag="+60" Click="QuickTime_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+                <Button Content="09:00" Tag="09:00" Click="QuickTime_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+                <Button Content="14:00" Tag="14:00" Click="QuickTime_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+                <Button Content="18:00" Tag="18:00" Click="QuickTime_Click" Style="{DynamicResource ChipBtnStyle}" Margin="0,0,5,5"/>
+            </WrapPanel>
+
+            <!-- Repeat -->
+            <CheckBox x:Name="DailyRepeatCheck"
+                      Content="设为每日重复任务（每天自动出现在当日计划）"
+                      FontSize="12.5"
+                      Foreground="{DynamicResource TextPrimaryBrush}"
+                      Margin="0,8,0,0"/>
+
+            <TextBlock x:Name="ErrorText"
+                       Foreground="#DC2626"
+                       FontSize="12"
+                       Margin="0,8,0,0"
+                       Visibility="Collapsed"/>
+
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
+                <Button x:Name="CancelBtn"
+                        Content="取消"
+                        Width="78" Height="32"
+                        Margin="0,0,8,0"
+                        Click="Cancel_Click"
+                        Style="{DynamicResource SubtleBtnStyle}"/>
+                <Button x:Name="SaveBtn"
+                        Content="保存"
+                        Width="88" Height="32"
+                        IsDefault="True"
+                        Click="Save_Click"
+                        Style="{DynamicResource AccentBtnStyle}"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+    </Border>
+</Window>

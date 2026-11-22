@@ -1,0 +1,23 @@
+# Build outputs & user binaries
+bin/
+obj/
+publish/
+release/
+*.exe
+*.dll
+*.pdb
+*.user
+*.suo
+*.cache
+.vs/
+
+# Private runtime data, plans & webhook secrets (NEVER commit)
+data/
+logs/
+*.log
+*.bak
+
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+Desktop.ini
