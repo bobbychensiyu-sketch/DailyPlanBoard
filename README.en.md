@@ -9,6 +9,18 @@
   Built with C# / WPF (.NET 7+) · &lt; 500 KB single executable · Ultra-low memory footprint · Edge-docked capsule
 </p>
 
+<p align="center">
+  <img src="./docs/images/01-hero-showcase.png" alt="DailyPlanBoard Hero Showcase: Warm Paper, Edge Capsule, Dark Slate & Urgent Milestone Alert" width="92%">
+</p>
+
+---
+
+## Screenshots
+
+| Calendar Overview & Range Export | Settings & Customization |
+| :---: | :---: |
+| <img src="./docs/images/02-calendar-export.png" alt="Calendar Overview and Report Export" width="100%"> | <img src="./docs/images/03-settings-panel.png" alt="Settings and Trilingual Customization" width="100%"> |
+
 ---
 
 ## Key Features

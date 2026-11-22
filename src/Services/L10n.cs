@@ -232,7 +232,7 @@ public static class L10n
         ["MsPickDate"] = ("📅 选择指定节点日期...", "📅 Pick custom target date...", "📅 Choisir une date..."),
         ["MsClear"] = ("✕ 清除节点日期", "✕ Clear milestone date", "✕ Effacer l'échéance"),
 
-        ["MilestoneDueTodayBadge"] = ("🚨 今日节点 · 紧急 ({0})", "🚨 Milestone TODAY · URGENT ({0})", "🚨 Échéance AUJ. · URGENT ({0})"),
+        ["MilestoneDueTodayBadge"] = ("🚨 今日节点 · 紧急 ({0})", "🚨 Due Today · Urgent ({0})", "🚨 Échéance · URGENT ({0})"),
         ["MilestoneLeft1Badge"] = ("🔥 距节点剩 1 天 · 提前1天 ({0})", "🔥 1d left · T-1 Alert ({0})", "🔥 J-1 · Alerte J-1 ({0})"),
         ["MilestoneLeft3Badge"] = ("⚠️ 距节点剩 3 天 · 提前3天 ({0})", "⚠️ 3d left · T-3 Alert ({0})", "⚠️ J-3 · Alerte J-3 ({0})"),
         ["MilestoneLeftDaysBadge"] = ("🎯 距节点剩 {0} 天 ({1})", "🎯 {0}d left ({1})", "🎯 J-{0} ({1})"),

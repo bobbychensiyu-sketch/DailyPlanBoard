@@ -223,8 +223,8 @@ public partial class CalendarOverviewWindow : Window
             var cb = new System.Windows.Controls.CheckBox
             {
                 IsChecked = it.IsCompleted,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, 0, 8, 0),
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(0, 2, 8, 0),
                 Style = (Style)FindResource("TaskCheckBoxStyle")
             };
             cb.Click += (_, _) =>
@@ -237,42 +237,7 @@ public partial class CalendarOverviewWindow : Window
             };
             dp.Children.Add(cb);
 
-            if (!string.IsNullOrWhiteSpace(it.ReminderTime))
-            {
-                var rem = new TextBlock
-                {
-                    Text = $"⏰ {it.ReminderTime}",
-                    FontSize = 10.5,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Margin = new Thickness(6, 0, 0, 0)
-                };
-                rem.SetResourceReference(TextBlock.ForegroundProperty, "AccentBrush");
-                DockPanel.SetDock(rem, Dock.Right);
-                dp.Children.Add(rem);
-            }
-
-            if (it.HasMilestone && it.DaysUntilMilestone.HasValue)
-            {
-                int dLeft = it.DaysUntilMilestone.Value;
-                var ms = new TextBlock
-                {
-                    Text = it.DisplayMilestoneBadgeText,
-                    FontSize = 10.2,
-                    FontWeight = dLeft <= 1 ? FontWeights.Bold : FontWeights.SemiBold,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Margin = new Thickness(6, 0, 0, 0)
-                };
-                if (dLeft <= 0)
-                    ms.Foreground = new SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#DC2626"));
-                else if (dLeft == 1)
-                    ms.Foreground = new SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#EA580C"));
-                else
-                    ms.SetResourceReference(TextBlock.ForegroundProperty, "AccentBrush");
-
-                DockPanel.SetDock(ms, Dock.Right);
-                dp.Children.Add(ms);
-            }
-
+            var contentCol = new StackPanel();
             var txt = new TextBlock
             {
                 Text = it.Title,
@@ -283,7 +248,47 @@ public partial class CalendarOverviewWindow : Window
             };
             txt.SetResourceReference(TextBlock.ForegroundProperty,
                 it.IsCompleted ? "TextCompletedBrush" : "TextPrimaryBrush");
-            dp.Children.Add(txt);
+            contentCol.Children.Add(txt);
+
+            if ((it.HasMilestone && it.DaysUntilMilestone.HasValue) || !string.IsNullOrWhiteSpace(it.ReminderTime))
+            {
+                var metaWrap = new WrapPanel { Margin = new Thickness(0, 3, 0, 0) };
+
+                if (it.HasMilestone && it.DaysUntilMilestone.HasValue)
+                {
+                    int dLeft = it.DaysUntilMilestone.Value;
+                    var ms = new TextBlock
+                    {
+                        Text = it.DisplayMilestoneBadgeText,
+                        FontSize = 10.2,
+                        FontWeight = dLeft <= 1 ? FontWeights.Bold : FontWeights.SemiBold,
+                        Margin = new Thickness(0, 0, 8, 0)
+                    };
+                    if (dLeft <= 0)
+                        ms.Foreground = new SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#DC2626"));
+                    else if (dLeft == 1)
+                        ms.Foreground = new SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#EA580C"));
+                    else
+                        ms.SetResourceReference(TextBlock.ForegroundProperty, "AccentBrush");
+
+                    metaWrap.Children.Add(ms);
+                }
+
+                if (!string.IsNullOrWhiteSpace(it.ReminderTime))
+                {
+                    var rem = new TextBlock
+                    {
+                        Text = $"⏰ {it.ReminderTime}",
+                        FontSize = 10.2
+                    };
+                    rem.SetResourceReference(TextBlock.ForegroundProperty, "AccentBrush");
+                    metaWrap.Children.Add(rem);
+                }
+
+                contentCol.Children.Add(metaWrap);
+            }
+
+            dp.Children.Add(contentCol);
 
             row.Child = dp;
             DayPlansPanel.Children.Add(row);

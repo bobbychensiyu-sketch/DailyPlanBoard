@@ -9,6 +9,18 @@
   基于 C# / WPF (.NET 7+) 构建 · 单文件不足 500 KB · 极低内存常驻 · 屏幕边缘磁吸胶囊
 </p>
 
+<p align="center">
+  <img src="./docs/images/01-hero-showcase.png" alt="每日计划看板 · 主界面、边缘胶囊、暗色英文与紧急节点弹窗展示" width="92%">
+</p>
+
+---
+
+## 界面预览
+
+| 日历总览与区间导出 | 设置与个性化定制 |
+| :---: | :---: |
+| <img src="./docs/images/02-calendar-export.png" alt="日历总览与报告导出" width="100%"> | <img src="./docs/images/03-settings-panel.png" alt="三语设置与窗口配置" width="100%"> |
+
 ---
 
 ## 核心特性
